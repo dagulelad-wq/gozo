@@ -26,5 +26,25 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ]
+  ],
+  "share_target": {
+    "action": "./share-target",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "files": [
+        {
+          "name": "file",
+          "accept": [
+            "text/plain",
+            ".txt",
+            "application/octet-stream",
+            ".yoman",
+            "application/json",
+            ".json"
+          ]
+        }
+      ]
+    }
+  }
 }

@@ -37,9 +37,10 @@ function exportSheet(mode){var bk=mode==="backup";
    else download()}).catch(function(){err.hidden=!1;err.textContent="משהו השתבש ביצירת הקובץ. נסה שוב.";go.disabled=!1;go.textContent=label})}}
 window.xferSend=function(){exportSheet("send")};
 window.xferBackup=function(){exportSheet("backup")};
-window.xferRecv=function(){var s=sheet(head("קבלה ממכשיר אחר")+'<p class="sheet-text">בחר את הקובץ שקיבלת והקלד את הסיסמה. כל הנתונים במכשיר הזה יוחלפו בנתונים מהקובץ.</p><input type="file" id="xf-file" class="text-input"><label class="xf-l">סיסמה<input class="text-input" id="xf-pw" type="password" autocomplete="current-password"></label><p class="xf-err" hidden></p><div class="sheet-actions"><button type="button" class="btn btn-primary" id="xf-go">טען נתונים</button></div>');
+window.xferRecv=function(preset){var s=sheet(head("קבלה ממכשיר אחר")+'<p class="sheet-text">בחר את הקובץ שקיבלת והקלד את הסיסמה. כל הנתונים במכשיר הזה יוחלפו בנתונים מהקובץ.</p><input type="file" id="xf-file" class="text-input"><label class="xf-l">סיסמה<input class="text-input" id="xf-pw" type="password" autocomplete="current-password"></label><p class="xf-err" hidden></p><div class="sheet-actions"><button type="button" class="btn btn-primary" id="xf-go">טען נתונים</button></div>');
  var f=s.querySelector("#xf-file"),pw=s.querySelector("#xf-pw"),err=s.querySelector(".xf-err"),go=s.querySelector("#xf-go"),bad=function(t){err.hidden=!1;err.textContent=t;go.disabled=!1;go.textContent="טען נתונים"};
- go.onclick=function(){var file=f.files&&f.files[0];if(!file)return bad("צריך לבחור קובץ.");go.disabled=!0;go.textContent="פותח…";
+ if(preset){f.hidden=!0;var nf=document.createElement("p");nf.className="sheet-text";nf.textContent="הקובץ: "+preset.name;f.parentNode.insertBefore(nf,f);setTimeout(function(){pw.focus()},50)}
+ go.onclick=function(){var file=preset||(f.files&&f.files[0]);if(!file)return bad("צריך לבחור קובץ.");go.disabled=!0;go.textContent="פותח…";
   file.arrayBuffer().then(function(b){return unpack(fromText(b),pw.value||"")}).then(function(j){if(!j||j.app!=="yoman"||!j.docs)throw new Error("format");var n=Object.keys(j.docs).length;
    go.textContent="מחליף…";return window.yomanStore.replace(j.docs).then(function(){go.textContent="נטען. מרענן…";setTimeout(function(){location.reload()},500)})}).catch(function(e){bad(e&&e.message==="password"?"הסיסמה לא נכונה, או שהקובץ פגום.":"זה לא קובץ גיבוי של Gozo.")})}};
 })();
@@ -75,3 +76,8 @@ function reminder(){var hero=document.querySelector(".view > .card.hero"),bar=do
 function check(){if(busy)return;card();reminder()}
 window.addEventListener("gozo-backup",check);
 var t=0;new MutationObserver(function(){if(busy)return;clearTimeout(t);t=setTimeout(check,150)}).observe(document.documentElement,{subtree:!0,childList:!0})})();
+
+/* a backup shared to Gozo from WhatsApp / My Files arrives through the service worker */
+(function(){if(!/[?&]shared=1/.test(location.search))return;try{history.replaceState(null,"",location.pathname)}catch(e){}
+ var go=function(){if(!window.caches)return;caches.open("gozo-share").then(function(c){return c.match("shared-file").then(function(res){if(!res)return;var name=decodeURIComponent(res.headers.get("x-name")||"backup.txt");return res.blob().then(function(b){c.delete("shared-file");window.xferRecv(new File([b],name))})})}).catch(function(){})};
+ (window.yomanLock?window.yomanLock.ready:Promise.resolve()).then(function(){setTimeout(go,400)})})();
