@@ -41,5 +41,16 @@ window.claude={use:function(n){return ready.then(function(){return n==="db"?DB:n
 window.yomanStore={all:function(){return ready.then(function(){var o={};mem.forEach(function(v,k){o[k]=v});return o})},
  replace:function(docs){return L.ready.then(function(){var ks=Object.keys(docs);return Promise.all(ks.map(function(k){return L.encrypt(docs[k])})).then(function(recs){return getIdb().then(function(d){return new Promise(function(res,rej){var tx=d.transaction(ST,"readwrite"),os=tx.objectStore(ST);os.clear();ks.forEach(function(k,i){os.put(recs[i],k)});tx.oncomplete=res;tx.onerror=function(){rej(tx.error)}})})})})}};
 if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(function(){});
-if("serviceWorker"in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
+/* updates: the app checks for a new version whenever it comes to the front; the menu has a manual check */
+var manualUpd=!1;
+function bar(){if(document.querySelector(".upd-bar"))return;var b=document.createElement("div");b.className="upd-bar";b.setAttribute("role","status");b.innerHTML='<span>יש גרסה חדשה של Gozo</span><button type="button">רענון</button>';b.querySelector("button").onclick=function(){location.reload()};document.body.appendChild(b)}
+function toast(t){var b=document.createElement("div");b.className="upd-bar";b.innerHTML="<span></span>";b.firstChild.textContent=t;document.body.appendChild(b);setTimeout(function(){b.remove()},2500)}
+window.gozoUpdate=function(){manualUpd=!0;if(!("serviceWorker"in navigator))return location.reload();
+ navigator.serviceWorker.getRegistration().then(function(r){if(!r)return location.reload();
+  return r.update().then(function(){var w=r.installing||r.waiting;if(!w){toast("זו הגרסה האחרונה ("+(window.GOZO_V||"")+"). מרענן…");setTimeout(function(){location.reload()},900);return}
+   setTimeout(function(){location.reload()},4000)})}).catch(function(){location.reload()})};
+if("serviceWorker"in navigator){var hadCtl=!!navigator.serviceWorker.controller;
+ navigator.serviceWorker.addEventListener("controllerchange",function(){if(!hadCtl){hadCtl=!0;return}if(manualUpd)location.reload();else bar()});
+ window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
+ document.addEventListener("visibilitychange",function(){if(document.hidden)return;navigator.serviceWorker.getRegistration().then(function(r){r&&r.update().catch(function(){})})})}
 })();
