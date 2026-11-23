@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#4A44D4"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Gozo"></head><body><script>window.GOZO_V="17"</script><script src="lock.js"></script><script src="shim.js"></script><script src="xfer.js"></script>
+<!doctype html><html><head><meta charset=utf8><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#4A44D4"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Gozo"></head><body><script>window.GOZO_V="18"</script><script src="lock.js"></script><script src="shim.js"></script><script src="xfer.js"></script>
 <title>Gozo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -769,13 +769,10 @@ html.demo .demo-bar small{opacity:.7;font-weight:500}
 html.demo .demo-bar.holding{background:linear-gradient(90deg,var(--brand) 0%,var(--ink) 0%);animation:hold 1.8s linear forwards}
 @keyframes hold{from{box-shadow:inset 0 0 0 0 var(--brand)}to{box-shadow:inset 100vw 0 0 0 var(--brand)}}
 html.demo .main{padding-top:32px}
-html.demo .demo-hide,
-html.demo .view>.hero,html.demo .o-ask,html.demo .status-row .cc-chip:nth-child(2),
-html.demo [data-id=vault],html.demo [data-id=data],html.demo [data-id=_share],html.demo [data-id=_imp],html.demo [data-id=_demo],
-html.demo .fab-float,html.demo .rail-foot .btn,html.demo .cash-panel,
-html.demo .timeline rect[fill="var(--income)"],html.demo .tl-val.in,html.demo .tl-legend span:first-child,html.demo .tl-detail{display:none!important}
+html.demo .o-ask,html.demo [data-id=data],html.demo [data-id=_share],html.demo [data-id=_imp],html.demo [data-id=_demo],html.demo .fab-float,html.demo .rail-foot .btn{display:none!important}
+::highlight(dm){color:transparent;background-color:var(--line);text-shadow:0 0 10px var(--ink)}html.demo .dm-svg{filter:blur(5px)}html.demo .mc-open,html.demo .cycle-actions,html.demo .fx-tg,html.demo .fx-x,html.demo .bk-bar{display:none!important}html.demo .cqs,html.demo .fx-chips .chip{pointer-events:none}html.demo .dm-blur{filter:blur(7px)}html.demo input[type=number]{color:transparent!important;text-shadow:0 0 9px var(--ink)}
 html.demo .cycle-strip b{filter:blur(7px);user-select:none}
-html.demo .tabbar{grid-template-columns:repeat(3,1fr)!important}
+
 html.demo input,html.demo select,html.demo .money-input,html.demo .cat-chip,html.demo .cat-name-btn,html.demo .tx.tappable,html.demo .link-btn:not(.cycle-strip .link-btn){pointer-events:none}
 /* check more prominent */
 .view:has(>.hero)>.cycle-strip{order:2!important}.view:has(>.hero)>.tl-card{order:3!important}.view:has(>.hero)>.grid{order:4!important}
@@ -785,7 +782,7 @@ html.demo input,html.demo select,html.demo .money-input,html.demo .cat-chip,html
 .cycle-strip .link-btn{min-height:44px;padding:8px 14px;border-radius:12px;background:var(--brand-soft)}
 </style>
 <style>@media (max-width:760px){.cycle-strip{flex-wrap:wrap;row-gap:12px}.cycle-strip .cs-text{flex:1 1 calc(100% - 56px);min-width:0}.cycle-strip .link-btn{width:100%;justify-content:center}}
-html.demo .cycle-strip .link-btn{display:none!important}.ask{background:var(--surface)!important;color:var(--ink)!important}.ask p{opacity:1!important;color:var(--muted)}.ask-chip{border:1px solid var(--line)!important;background:var(--surface-2)!important;color:var(--ink)!important;min-height:44px}.ask-chip:hover{border-color:var(--brand)!important}.ask-form{background:var(--surface-2)!important;border:1px solid var(--line)!important}.ask-form input{color:var(--ink)!important}.ask-form input::placeholder{color:var(--faint)!important}.ask-form .icon-btn{color:var(--brand)!important}.ask-answer{background:var(--surface-2)!important;color:var(--ink)!important}html.demo .timeline .tl-val,html.demo .timeline .tl-tick{display:none!important}</style>
+html.demo .cycle-strip .link-btn{display:none!important}.ask{background:var(--surface)!important;color:var(--ink)!important}.ask p{opacity:1!important;color:var(--muted)}.ask-chip{border:1px solid var(--line)!important;background:var(--surface-2)!important;color:var(--ink)!important;min-height:44px}.ask-chip:hover{border-color:var(--brand)!important}.ask-form{background:var(--surface-2)!important;border:1px solid var(--line)!important}.ask-form input{color:var(--ink)!important}.ask-form input::placeholder{color:var(--faint)!important}.ask-form .icon-btn{color:var(--brand)!important}.ask-answer{background:var(--surface-2)!important;color:var(--ink)!important}</style>
 <style>[data-id=_share],.o-ask,.menu-sheet>.fine{display:none!important}
 .fx-split{display:flex;flex-direction:column;gap:12px}.fx-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.fx-head h2,.fx-h2{margin:0;font-size:17px}.fx-link{background:none;border:0;color:var(--brand);font:inherit;font-size:14px;font-weight:600;min-height:44px;padding:0 4px;cursor:pointer}
 .fx-bar{display:flex;height:14px;border-radius:8px;overflow:hidden;background:var(--line)}.fx-b-fix{background:var(--muted)}.fx-b-var{background:var(--brand)}
@@ -1105,14 +1102,14 @@ return R.createElement("div",{className:"scrim",onClick:e=>{e.target===e.current
 R.createElement("div",{className:"drawer-grab",onTouchStart:ts,onTouchMove:tm,onTouchEnd:te},R.createElement("span",{className:"drawer-handle","aria-hidden":"true"}),R.createElement("button",{type:"button",className:"icon-btn drawer-x","aria-label":"סגירה",onClick:p.onClose},"✕")),
 R.createElement("div",{className:"drawer-body"},p.children)))}
 function demoSet(on){try{on?localStorage.setItem("journal.demo","1"):localStorage.removeItem("journal.demo")}catch(e){}document.documentElement.classList.toggle("demo",!!on);demoScan();window.scrollTo(0,0)}
-function demoScan(){if(!document.documentElement.classList.contains("demo"))return;
- document.querySelectorAll(".sum-tile").forEach(t=>{if(/הכנסה חודשית|לחיסכון/.test(t.textContent))t.classList.add("demo-hide")});
- document.querySelectorAll(".sum-tile .sub").forEach(t=>{if(/מההכנסה/.test(t.textContent))t.classList.add("demo-hide")});
- document.querySelectorAll(".seg-btn").forEach(b=>{if(b.textContent.trim()==="הכנסות"){b.classList.add("demo-hide");if(b.getAttribute("aria-pressed")==="true"){let o=[...b.parentElement.children].find(x=>x.textContent.trim()==="הוצאות");o&&o.click()}}if(b.textContent.trim()==="יעדים ופרויקטים")b.classList.add("demo-hide")});
- document.querySelectorAll(".tx").forEach(t=>{let c=t.querySelector(".cat-chip");if(c&&/השקעות וחי?סכון|העברות ותשלומים/.test(c.textContent))t.classList.add("demo-hide")});
- document.querySelectorAll(".carousel .chip").forEach(c=>{if(/השקעות וחי?סכון/.test(c.textContent))c.classList.add("demo-hide")});
- document.querySelectorAll(".btn").forEach(b=>{if(/תקציב מוצע לחיסכון/.test(b.textContent))b.classList.add("demo-hide")});
- let u=document.querySelector('.tab-btn[aria-current=page],.nav-btn[aria-current=page]');if(u&&/^(vault|goals|data)$/.test(u.getAttribute("data-id")||"")){let s=document.querySelector('[data-id=spend]');s&&s.click()}}
+function demoScan(){let H=window.CSS&&CSS.highlights&&window.Highlight,on=document.documentElement.classList.contains("demo");
+ if(!on){H&&CSS.highlights.delete("dm");document.querySelectorAll(".dm-svg,.dm-blur").forEach(e=>e.classList.remove("dm-svg","dm-blur"));return}
+ let RX=/₪[\s‎‏]*-?\d[\d,.]*\s*K?|-?\d[\d,.]*\s*K?[\s‎‏]*₪|\b\d+(?:[.,]\d+)?K\b/g,ranges=[],w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+ for(let n;(n=w.nextNode());){let t=n.nodeValue;if(!t||!/₪|\dK\b/.test(t))continue;let p=n.parentElement;if(!p||p.closest(".demo-bar,#ylock,script,style,option"))continue;
+  if(p.closest("svg")){p.classList.add("dm-svg");continue}
+  if(!H){p.classList.add("dm-blur");continue}
+  RX.lastIndex=0;let m;while((m=RX.exec(t))){let r=new Range();r.setStart(n,m.index);r.setEnd(n,m.index+m[0].length);ranges.push(r)}}
+ if(H)CSS.highlights.set("dm",new Highlight(...ranges))}
 (function(){let on=!1;try{on=localStorage.getItem("journal.demo")==="1"}catch(e){}if(on)document.documentElement.classList.add("demo");
  let bar=document.createElement("div");bar.className="demo-bar";bar.innerHTML='<span>מצב הצגה</span><small>לחיצה ארוכה ליציאה</small>';document.body.appendChild(bar);
  let t=null,start=e=>{bar.classList.add("holding");t=setTimeout(()=>{bar.classList.remove("holding");demoSet(!1)},1800)},stop=()=>{bar.classList.remove("holding");clearTimeout(t)};
