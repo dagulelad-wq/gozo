@@ -1,7 +1,7 @@
 /* Local storage layer: replaces Claude's cloud store. Everything stays on this device (IndexedDB). */
 (function(){
 var ST="docs",mem=new Map(),ready,docL=new Map(),colL=new Map();
-var L=window.yomanLock;function getIdb(){return window.yomanIdb()}
+var GOZO_DEMO=!1;try{GOZO_DEMO=localStorage.getItem("journal.demo")==="1"}catch(e){}var L=window.yomanLock;function getIdb(){if(GOZO_DEMO)return Promise.reject(new Error("demo: real storage is closed"));return window.yomanIdb()}
 function load(){return getIdb().then(function(d){return new Promise(function(res){var raw=[],tx=d.transaction(ST,"readonly"),rq=tx.objectStore(ST).openCursor();rq.onsuccess=function(){var c=rq.result;if(c){raw.push([c.key,c.value]);c.continue()}else res(raw)};rq.onerror=function(){res(raw)}})}).then(function(raw){
  return Promise.all(raw.map(function(kv){return L.decrypt(kv[1]).then(function(r){mem.set(kv[0],r.v);if(r.legacy)persist(kv[0],r.v)},function(){})}))}).catch(function(){})}
 /* writes are encrypted and serialized so a later write can never land before an earlier one */
@@ -33,13 +33,13 @@ function colRef(c,q){q=q||{};var self={path:c,
  limit:function(n){return colRef(c,Object.assign({},q,{l:n}))},
  get:function(){return ready.then(function(){return snapCol(c,q)})},
  onSnapshot:function(f){var o={f:f,q:q},a=colL.get(c)||[];a.push(o);colL.set(c,a);ready.then(function(){f(snapCol(c,q))});return function(){var b=colL.get(c)||[];colL.set(c,b.filter(function(x){return x!==o}))}}};return self}
-ready=L.ready.then(load);
+if(GOZO_DEMO){var dd=window.gozoDemoDocs?window.gozoDemoDocs():{};Object.keys(dd).forEach(function(k){mem.set(k,dd[k])});persist=function(){return Promise.resolve()};ready=Promise.resolve()}else ready=L.ready.then(load);
 var DB={doc:docRef,collection:colRef};
 var USER={isOwner:function(){return!0},canEdit:function(){return!0},can:function(){return!0},id:function(){return Promise.resolve("local")},me:function(){return Promise.resolve({id:"local",name:""})},profiles:function(){return Promise.resolve({})},search:function(){return Promise.resolve([])}};
 window.claude={use:function(n){return ready.then(function(){return n==="db"?DB:n==="user"?USER:null})}};
 /* export / import of every document, used by device transfer */
-window.yomanStore={all:function(){return ready.then(function(){var o={};mem.forEach(function(v,k){o[k]=v});return o})},
- replace:function(docs){return L.ready.then(function(){var ks=Object.keys(docs);return Promise.all(ks.map(function(k){return L.encrypt(docs[k])})).then(function(recs){return getIdb().then(function(d){return new Promise(function(res,rej){var tx=d.transaction(ST,"readwrite"),os=tx.objectStore(ST);os.clear();ks.forEach(function(k,i){os.put(recs[i],k)});tx.oncomplete=res;tx.onerror=function(){rej(tx.error)}})})})})}};
+window.gozoDemo=GOZO_DEMO;window.yomanStore={all:function(){if(GOZO_DEMO)return Promise.reject(new Error("demo"));return ready.then(function(){var o={};mem.forEach(function(v,k){o[k]=v});return o})},
+ replace:function(docs){if(GOZO_DEMO)return Promise.reject(new Error("demo"));return L.ready.then(function(){var ks=Object.keys(docs);return Promise.all(ks.map(function(k){return L.encrypt(docs[k])})).then(function(recs){return getIdb().then(function(d){return new Promise(function(res,rej){var tx=d.transaction(ST,"readwrite"),os=tx.objectStore(ST);os.clear();ks.forEach(function(k,i){os.put(recs[i],k)});tx.oncomplete=res;tx.onerror=function(){rej(tx.error)}})})})})}};
 if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(function(){});
 /* updates: the app checks for a new version whenever it comes to the front; the menu has a manual check */
 var manualUpd=!1;

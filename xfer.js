@@ -35,9 +35,10 @@ function exportSheet(mode){var bk=mode==="backup";
    pw.disabled=!0;go.disabled=!1;
    if(navigator.canShare&&navigator.canShare({files:[file]})){go.textContent=bk?"הקובץ מוכן · שמירה בדרייב":"הקובץ מוכן · שליחה";err.hidden=!1;err.className="xf-ok";err.textContent="הקובץ הוצפן. לחץ על הכפתור כדי לבחור איפה לשמור.";}
    else download()}).catch(function(){err.hidden=!1;err.textContent="משהו השתבש ביצירת הקובץ. נסה שוב.";go.disabled=!1;go.textContent=label})}}
-window.xferSend=function(){exportSheet("send")};
-window.xferBackup=function(){exportSheet("backup")};
-window.xferRecv=function(preset){var s=sheet(head("קבלה ממכשיר אחר")+'<p class="sheet-text">בחר את הקובץ שקיבלת והקלד את הסיסמה. כל הנתונים במכשיר הזה יוחלפו בנתונים מהקובץ.</p><input type="file" id="xf-file" class="text-input"><label class="xf-l">סיסמה<input class="text-input" id="xf-pw" type="password" autocomplete="current-password"></label><p class="xf-err" hidden></p><div class="sheet-actions"><button type="button" class="btn btn-primary" id="xf-go">טען נתונים</button></div>');
+function demoNo(){var b=document.createElement("div");b.className="upd-bar";b.innerHTML="<span>לא זמין בנתוני דוגמה. יוצאים בלחיצה ארוכה על הפס העליון.</span>";document.body.appendChild(b);setTimeout(function(){b.remove()},2600)}
+window.xferSend=function(){if(window.gozoDemo){demoNo();return}exportSheet("send")};
+window.xferBackup=function(){if(window.gozoDemo){demoNo();return}exportSheet("backup")};
+window.xferRecv=function(preset){if(window.gozoDemo){demoNo();return}var s=sheet(head("קבלה ממכשיר אחר")+'<p class="sheet-text">בחר את הקובץ שקיבלת והקלד את הסיסמה. כל הנתונים במכשיר הזה יוחלפו בנתונים מהקובץ.</p><input type="file" id="xf-file" class="text-input"><label class="xf-l">סיסמה<input class="text-input" id="xf-pw" type="password" autocomplete="current-password"></label><p class="xf-err" hidden></p><div class="sheet-actions"><button type="button" class="btn btn-primary" id="xf-go">טען נתונים</button></div>');
  var f=s.querySelector("#xf-file"),pw=s.querySelector("#xf-pw"),err=s.querySelector(".xf-err"),go=s.querySelector("#xf-go"),bad=function(t){err.hidden=!1;err.textContent=t;go.disabled=!1;go.textContent="טען נתונים"};
  if(preset){f.hidden=!0;var nf=document.createElement("p");nf.className="sheet-text";nf.textContent="הקובץ: "+preset.name;f.parentNode.insertBefore(nf,f);setTimeout(function(){pw.focus()},50)}
  go.onclick=function(){var file=preset||(f.files&&f.files[0]);if(!file)return bad("צריך לבחור קובץ.");go.disabled=!0;go.textContent="פותח…";

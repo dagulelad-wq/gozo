@@ -73,7 +73,7 @@ function setupScreen(title,sub,onPin){var first=null;
   after:function(e){e.querySelector("[data-back]").onclick=step1}})}
  step1()}
 /* ---------- flow ---------- */
-function start(){metaGet().then(function(m){meta=m;
+var GOZO_DEMO=!1;try{GOZO_DEMO=localStorage.getItem("journal.demo")==="1"}catch(e){}function start(){if(GOZO_DEMO){locked=!1;resolveReady();return}metaGet().then(function(m){meta=m;
  if(m){unlockScreen(function(k){dataKey=k;locked=!1;hide();resolveReady()});return}
  setupScreen("בחר קוד לפתיחת Gozo","4 עד 6 ספרות. תצטרך אותו בכל פתיחה. אם תשכח אותו, אפשר לשחזר רק מקובץ גיבוי.",function(p){
   return crypto.subtle.generateKey({name:"AES-GCM",length:256},!0,["encrypt","decrypt"]).then(function(dk){return wrap(dk,p).then(function(w){return metaPut(w).then(function(){meta=w;return unwrap(w,p,!1)})})}).then(function(k){dataKey=k;locked=!1;hide();resolveReady()})})})}
