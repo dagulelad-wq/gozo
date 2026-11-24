@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#F2F3F7" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0B0D12" media="(prefers-color-scheme: dark)"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Gozo"></head><body><script>window.GOZO_V="19"</script><script src="lock.js"></script><script src="shim.js"></script><script src="xfer.js"></script>
+<!doctype html><html><head><meta charset=utf8><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#F2F3F7" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0B0D12" media="(prefers-color-scheme: dark)"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Gozo"></head><body><script>window.GOZO_V="20"</script><script src="lock.js"></script><script src="shim.js"></script><script src="xfer.js"></script>
 <title>Gozo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1226,4 +1226,42 @@ body{font-family:var(--font-body)}
 .tab-btn[aria-current=page]{color:var(--brand)}
 .day-head{font-weight:500}
 .period-spacer{height:6px}
-</style></body></html>
+/* ===== Gozo skin v2: structure (grouped lists, edit on demand, info on demand) ===== */
+.mobile-title{font-size:28px!important;font-weight:700}
+/* page intro text behind an info button */
+.page-head p{display:none}.page-head.info-open p{display:block}
+.pg-info{border:0;background:none;color:var(--brand);font:500 14px var(--font-body);padding:4px 0;min-height:36px;cursor:pointer}
+/* budget summary: one big number, the rest as list rows */
+.budget-summary{display:flex!important;flex-direction:column;gap:0;background:var(--surface);border-radius:var(--r-md);border:1px solid var(--line);overflow:hidden}
+.budget-summary .sum-tile{background:none;border-radius:0;flex-direction:row;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:2px 8px;padding:12px 14px;border-top:1px solid var(--line)}
+.budget-summary .sum-tile .sub{flex-basis:100%;font-size:12px}
+.budget-summary .sum-tile .val{font-weight:600}
+.budget-summary .sum-tile:nth-child(3){order:-1;border-top:0;flex-direction:column;align-items:flex-start;background:var(--brand-soft)}
+.budget-summary .sum-tile:nth-child(3) .val{font-size:34px;font-weight:700;letter-spacing:-.8px;color:var(--ink)}
+/* budget categories: iOS rows, amount field only when editing */
+.budget-row{grid-template-columns:minmax(0,1fr) auto!important;gap:6px 12px!important;padding:12px 0!important;position:relative}
+.budget-row .budget-name{grid-column:1}
+.budget-row .budget-progress{grid-column:1 / -1;grid-row:2}
+.budget-row .money-input{grid-column:1 / -1;grid-row:3;display:none}
+.budget-row.editing .money-input{display:flex}
+.budget-row .cat-emoji{width:30px;height:30px;border-radius:9px;display:inline-grid;place-items:center;background:var(--surface-2);margin-inline-end:6px;font-size:15px}
+.bd-edit{grid-column:2;grid-row:1;align-self:center;border:0;background:var(--surface-2);color:var(--brand);border-radius:999px;font:600 13px var(--font-body);padding:7px 12px;min-height:34px;cursor:pointer}
+.budget-row.editing .bd-edit{background:var(--brand);color:var(--brand-ink)}
+.budget-progress .bar{height:6px!important;border-radius:3px!important}
+/* vault: values read like list values, not form boxes */
+.asset-row{grid-template-columns:minmax(0,1fr) 128px}
+.asset-value.money-input{border-color:transparent;background:var(--surface-2);border-radius:10px}
+.asset-value.money-input:focus-within{border-color:var(--brand);background:var(--surface)}
+.vault-group .card-head{margin-bottom:6px}
+.vault-group-sum{font-weight:700}
+.money-input{border-radius:10px}
+/* home chips row: quieter */
+.status-row .cc-chip{box-shadow:none}
+</style><script>
+/* skin v2 helpers: info button on page intros, edit toggle on budget rows */
+(function(){var busy=!1;function run(){if(busy)return;busy=!0;try{
+ document.querySelectorAll(".page-head").forEach(function(h){var p=h.querySelector("p");if(!p||h.querySelector(".pg-info"))return;var b=document.createElement("button");b.type="button";b.className="pg-info";b.textContent="ⓘ מה יש כאן?";b.onclick=function(){var o=h.classList.toggle("info-open");b.textContent=o?"ⓘ הסתרה":"ⓘ מה יש כאן?"};p.parentNode.insertBefore(b,p)});
+ document.querySelectorAll(".budget-row").forEach(function(r){if(r.querySelector(".bd-edit"))return;var b=document.createElement("button");b.type="button";b.className="bd-edit";b.textContent="עריכה";b.onclick=function(){var on=r.classList.toggle("editing");b.textContent=on?"סיום":"עריכה";if(on){var i=r.querySelector(".money-input input");i&&setTimeout(function(){i.focus()},30)}};r.appendChild(b)});
+}finally{busy=!1}}
+var t=0;new MutationObserver(function(){if(busy)return;clearTimeout(t);t=setTimeout(run,80)}).observe(document.documentElement,{subtree:!0,childList:!0});})();
+</script></body></html>
