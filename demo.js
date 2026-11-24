@@ -61,7 +61,7 @@ window.gozoDemoDocs=function(){
   investments:[{id:1,name:"מניות וקרנות סל · אלטשולר",value:184000,monthly:2000},{id:2,name:"קרן השתלמות",type:"hishtalmut",value:142000,monthly:0},{id:3,name:"קרן כספית (קרן חירום)",type:"emergency",value:78000,monthly:0},{id:4,name:"חיסכון לילדים · נועה",type:"kids",value:18000,monthly:0},{id:5,name:"חיסכון לילדים · איתי",type:"kids",value:9000,monthly:0},{id:6,name:"קופת גמל להשקעה",value:52000,monthly:0}],
   recurring:[],portfolio:null,txKinds:{},kindRules:{},pension:null,
   cash:{balance:R(36000,44000),cushion:25000,asOf:new Date(now.getTime()-2*864e5).toISOString().slice(0,10),source:"bank",daily:cashDaily},
-  cycles:cycles,cycleDest:{long:1},cardCharges:[],fixedCfg:null,cqPlans:[{id:888001,ym:trip,emoji:"✈️",name:"טיול משפחתי",amount:15000,goalId:tripId}],
+  cycles:cycles,cycleDest:{long:1},cardCharges:[],fixedCfg:null,cqTickers:(function(){var t={};t[ym(5)]=["S&P 500"];t[ym(4)]=["QQQ","NVDA"];t[ym(2)]=["S&P 500","MSCI World","NVDA"];t[ym(1)]=["S&P 500"];return t})(),cqMemos:{[ym(2)]:{emoji:"🎂",text:"יום הולדת לנועה"},[ym(4)]:{emoji:"🏖️",text:"סופ״ש בכנרת"}},cqPlans:[{id:888001,ym:trip,emoji:"✈️",name:"טיול משפחתי",amount:15000,goalId:tripId}],
   migrations:{mortgage:!0,kidsSplit:!0,cycles2026:!0,mortgage2:!0}};
  var docs={},s=JSON.stringify(j);
  docs["household/expense-dashboard-v1"]={gen:"demo",n:1,savedAt:now.toISOString()};
