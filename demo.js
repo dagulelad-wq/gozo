@@ -48,10 +48,15 @@ window.gozoDemoDocs=function(){
   if(mon===8&&ok(12)){add(tx,d(12),"אל על · כרטיסי טיסה","טיסות ותיירות",4180,cards[0]);add(tx,d(13),"Booking.com","טיסות ותיירות",2650,cards[0])}
   if(mon===4&&ok(20))add(tx,d(20),"צימר בגליל","טיסות ותיירות",1480,cards[1]);
  }
+ // this month: a bit over budget on dining out and clothes, so there is something to show
+ (function(){var m=ym(0),dd=function(x){return m+"-"+pad(Math.max(1,Math.min(x,today)))};
+  [["סושי בר",340],["מסעדת השף",420],["ארומה",68],["פיצה בית",145]].forEach(function(e,k){add(tx,dd(2+k*5),e[0],"מסעדות, קפה וברים",e[1],cards[k%2])});
+  add(tx,dd(9),"זארה","אופנה",560,cards[1]);add(tx,dd(16),"נייקי","אופנה",390,cards[0])})();
  var palette=["#3ECF8E","#FF6B5E","#F2C94C","#5B8DEF","#B36BFF","#FF9F43","#2EC4B6","#E76F9F","#8D99AE","#6C5CE7","#00B894","#E17055","#0984E3","#FDCB6E","#636E72"];
  function cats(list){var s=[];list.forEach(function(t){if(s.indexOf(t.category)<0)s.push(t.category)});return s.map(function(c,i){return{name:c,color:palette[i%palette.length]}})}
  var monthsBack=function(k){return ym(k)};
- var cycles=[[5,6500],[4,9200],[3,0],[2,7000],[1,5500]].map(function(p){var y=monthsBack(p[0]);return{ym:y,date:y+"-24",balance:null,cushion:25000,total:p[1],parts:p[1]>0?[{key:"long",label:"לטווח ארוך",amount:p[1],dest:1,destName:"מניות וקרנות סל · אלטשולר"}]:[]}});
+ var off=today>=23?0:1,amts=[5000,6500,4500,6000,5000,5000];
+ var cycles=amts.map(function(a,k){return[5-k+off,a]}).map(function(p){var y=monthsBack(p[0]);return{ym:y,date:y+"-24",balance:null,cushion:25000,total:p[1],parts:p[1]>0?[{key:"long",label:"לטווח ארוך",amount:p[1],dest:1,destName:"מניות וקרנות סל · אלטשולר"}]:[]}});
  var cashDaily={};for(var k=40;k>=0;k-=3){var dd=new Date(now.getTime()-k*864e5);cashDaily[dd.toISOString().slice(0,10)]=R(28000,52000)}
  var trip=ym(-4),tripId=777001;
  var j={transactions:tx,categories:cats(tx),merchantOverrides:{},noteOverrides:{},fixedOverrides:{},avgExcludedOverrides:{},
@@ -61,7 +66,7 @@ window.gozoDemoDocs=function(){
   investments:[{id:1,name:"מניות וקרנות סל · אלטשולר",value:184000,monthly:2000},{id:2,name:"קרן השתלמות",type:"hishtalmut",value:142000,monthly:0},{id:3,name:"קרן כספית (קרן חירום)",type:"emergency",value:78000,monthly:0},{id:4,name:"חיסכון לילדים · נועה",type:"kids",value:18000,monthly:0},{id:5,name:"חיסכון לילדים · איתי",type:"kids",value:9000,monthly:0},{id:6,name:"קופת גמל להשקעה",value:52000,monthly:0}],
   recurring:[],portfolio:null,txKinds:{},kindRules:{},pension:null,
   cash:{balance:R(36000,44000),cushion:25000,asOf:new Date(now.getTime()-2*864e5).toISOString().slice(0,10),source:"bank",daily:cashDaily},
-  cycles:cycles,cycleDest:{long:1},cardCharges:[],fixedCfg:null,cqTickers:(function(){var t={};t[ym(5)]=["S&P 500"];t[ym(4)]=["QQQ","NVDA"];t[ym(2)]=["S&P 500","MSCI World","NVDA"];t[ym(1)]=["S&P 500"];return t})(),cqMemos:{[ym(2)]:{emoji:"🎂",text:"יום הולדת לנועה"},[ym(4)]:{emoji:"🏖️",text:"סופ״ש בכנרת"}},cqPlans:[{id:888001,ym:trip,emoji:"✈️",name:"טיול משפחתי",amount:15000,goalId:tripId}],
+  cycles:cycles,cycleDest:{long:1},cardCharges:[],fixedCfg:null,cqTickers:(function(){var t={},L=[["S&P 500"],["QQQ","NVDA"],["MSCI World"],["S&P 500","אג״ח"],["NVDA","MSFT"],["S&P 500","MSCI World"]];L.forEach(function(v,k){t[ym(5-k+off)]=v});return t})(),cqMemos:{[ym(3+off)]:{emoji:"🎂",text:"יום הולדת לנועה"},[ym(4+off)]:{emoji:"🏖️",text:"סופ״ש בכנרת"}},cqPlans:[{id:888001,ym:trip,emoji:"✈️",name:"טיול משפחתי",amount:15000,goalId:tripId}],
   migrations:{mortgage:!0,kidsSplit:!0,cycles2026:!0,mortgage2:!0}};
  var docs={},s=JSON.stringify(j);
  docs["household/expense-dashboard-v1"]={gen:"demo",n:1,savedAt:now.toISOString()};
@@ -69,6 +74,6 @@ window.gozoDemoDocs=function(){
  var plus=function(days){return new Date(now.getTime()+days*864e5).toISOString().slice(0,10)};
  docs["carmod_cars/car1"]={name:"הרכב המשפחתי",model:"Kia Sportage 2020",plate:"12-345-67",costs:{license:1450,service:900,tiresFront:780,tiresRear:780},dates:{license:plus(140),serviceLast:plus(-200),tiresFront:plus(-400),tiresRear:plus(-400)},notes:{service:"טיפול 60,000"}};
  docs["carmod_cars/car2"]={name:"הקטנה",model:"Hyundai i10 2018",plate:"98-765-43",costs:{license:1100,service:650},dates:{license:plus(40),serviceLast:plus(-330)},notes:{}};
- docs["visual_mod/main"]={bed:{base:{t:300000,v:420000},mattress:{t:80000,v:78000},monthly:20000,pillow:{t:25000,v:30000}},example:!1,tree:{deposit:4000,goals:[{d:trip,n:"טיול משפחתי",s:4000,t:15000},{d:"2029-06",n:"רכב חדש",s:12000,t:90000}]},trips:[{d:trip,n:"טיול משפחתי",s:4000,t:15000}]};
+ docs["visual_mod/main"]={bed:{base:{t:300000,v:420000},mattress:{t:90000,v:64000},monthly:20000,pillow:{t:30000,v:30000}},example:!1,tree:{deposit:4000,goals:[{d:trip,n:"טיול משפחתי",s:4000,t:15000},{d:"2029-06",n:"רכב חדש",s:12000,t:90000}]},trips:[{d:trip,n:"טיול משפחתי",s:4000,t:15000}]};
  return docs};
 })();
